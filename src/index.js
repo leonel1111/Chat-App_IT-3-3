@@ -21,13 +21,36 @@ io.on('connection', (socket) => {
 
     /* Emitting the message event to the client. */
     socket.emit('message', 'Welcome!')
-
+    socket.broadcast.emit('message', 'a new user has joined')
 
 /* Listening for the sendMessage event. When it receives it, it will emit the message event to all the
 clients. */
     socket.on('sendMessage', (message) => {
-        io.emit('message', message)
+        io.emit('message', message) 
     })
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left')
+    })
+})
+
+server.listen(port, () => {
+    console.log(`this server is up on ${port}` )
+})
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 //     socket.emit('countUpdated', count)
 
@@ -38,9 +61,3 @@ clients. */
 //        // socket.emit('countUpdated', count)
 //         io.emit('countUpdated', count)
 //     })
-
-})
-
-server.listen(port, () => {
-    console.log(`this server is up on ${port}` )
-})
