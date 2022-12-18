@@ -10,7 +10,9 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
     const message = e.target.elements.message.value
 
     /* Sending the message to the server. */
-    socket.emit('sendMessage', message)
+    socket.emit('sendMessage', message, (message) => {
+        console.log('the message was delivered!', message)
+    })
 })
 
 

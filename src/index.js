@@ -20,14 +20,14 @@ io.on('connection', (socket) => {
     console.log('New Websocket Connection')
 
    
-/
     socket.emit('message', 'Welcome!')
     socket.broadcast.emit('message', 'a new user has joined')
 
 /* Listening for the sendMessage event. When it receives it, it will emit the message event to all the
 clients. */
-    socket.on('sendMessage', (message) => {
+    socket.on('sendMessage', (message, callback) => {
         io.emit('message', message) 
+        callback('Delivered')
     })
 
     socket.on('sendLocation', (coords) => {
