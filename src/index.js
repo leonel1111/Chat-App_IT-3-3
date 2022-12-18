@@ -37,8 +37,9 @@ clients. */
         callback()
     })
 
-    socket.on('sendLocation', (coords) => {
+    socket.on('sendLocation', (coords, callback) => {
         io.emit('message', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+        callback()
     })
 
 /* Listening for the disconnect event. When it receives it, it emits the message event to all the
