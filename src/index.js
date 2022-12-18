@@ -2,6 +2,7 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
+const Filter = require('bad-words')
 
 const app = express()
 /* Creating a server. */
@@ -26,8 +27,14 @@ io.on('connection', (socket) => {
 /* Listening for the sendMessage event. When it receives it, it will emit the message event to all the
 clients. */
     socket.on('sendMessage', (message, callback) => {
+        const filter = new Filter()
+
+        if (filter.isProfane(message)) {
+            return callback('profanity is not allowed')
+        }
+
         io.emit('message', message) 
-        callback('Delivered')
+        callback()
     })
 
     socket.on('sendLocation', (coords) => {
