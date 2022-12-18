@@ -19,7 +19,8 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New Websocket Connection')
 
-    /* Emitting the message event to the client. */
+   
+/
     socket.emit('message', 'Welcome!')
     socket.broadcast.emit('message', 'a new user has joined')
 
@@ -29,6 +30,12 @@ clients. */
         io.emit('message', message) 
     })
 
+    socket.on('sendLocation', (coords) => {
+        io.emit('message', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+    })
+
+/* Listening for the disconnect event. When it receives it, it emits the message event to all the
+clients. */
     socket.on('disconnect', () => {
         io.emit('message', 'A user has left')
     })
@@ -38,7 +45,8 @@ server.listen(port, () => {
     console.log(`this server is up on ${port}` )
 })
     
-    
+
+
 
 
 
