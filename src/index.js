@@ -19,7 +19,15 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New Websocket Connection')
 
+    /* Emitting the message event to the client. */
     socket.emit('message', 'Welcome!')
+
+
+/* Listening for the sendMessage event. When it receives it, it will emit the message event to all the
+clients. */
+    socket.on('sendMessage', (message) => {
+        io.emit('message', message)
+    })
 
 //     socket.emit('countUpdated', count)
 
