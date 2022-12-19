@@ -18,10 +18,10 @@ const addUser = ({ id, username, room }) => {
         return user.room === room && user.username === username
     })
 
-    //validate username
+    //validate username 
     if (existingUser) {
-        return {
-            error: 'Username is taken'
+        return { 
+            error: 'Username is taken' 
         }
     }
 
@@ -31,22 +31,26 @@ const addUser = ({ id, username, room }) => {
     return { user }
 }
 
+
 const removeUser = (id) => {
     const index = users.findIndex((user) => user.id === id)
     if (index !== -1) {
         return users.splice(index, 1)[0]
     }
- }
+}
+ 
+const getUser = (id) => {
+    return users.find((user) => user.id === id)
+}
 
-addUser({
-    id: 10,
-    username: 'leonel',
-    room: 'kk'
-})
+const getUsersInRoom = (room) => {
+    room = room.trim().toLowerCase()
+    return users.filter((user) => user.room === room)
+}
 
-console.log(users)
-
-const removedUser = removeUser(10)
-
-console.log(removeUser)
-console.log(users)
+module.exports = {
+    addUser,
+    removeUser,
+    getUser,
+    getUsersInRoom
+}
