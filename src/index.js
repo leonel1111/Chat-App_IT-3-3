@@ -22,9 +22,13 @@ io.on('connection', (socket) => {
     console.log('New Websocket Connection')
 
    
-    socket.emit('message', generateMessage('Welcome'))
-    socket.broadcast.emit('message', generateMessage('a new user has joined'))
-
+    
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
+   
+        socket.emit('message', generateMessage('Welcome'))
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+    })
 /* Listening for the sendMessage event. When it receives it, it will emit the message event to all the
 clients. */
     socket.on('sendMessage', (message, callback) => {
@@ -34,7 +38,7 @@ clients. */
             return callback('profanity is not allowed')
         }
 
-        io.emit('message', generateMessage(message)) 
+        io.to('HI').emit('message', generateMessage(message)) 
         callback()
     })
 
